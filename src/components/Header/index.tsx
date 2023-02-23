@@ -5,7 +5,7 @@ import {styles} from './style';
 export function Header() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Notes</Text>
+      <Text style={styles.title}>Klasorler</Text>
     </View>
   );
 }

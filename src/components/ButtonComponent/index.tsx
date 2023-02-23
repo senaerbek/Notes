@@ -6,9 +6,8 @@ import {
   View,
 } from 'react-native';
 import React, {ReactNode} from 'react';
-import {useGetTheme} from '../../hooks/theme';
-import {style} from './style';
-import {themes} from '../../theme/themes';
+import {styles} from './style';
+import {colors} from '../../themes/colors';
 
 interface ButtonProps {
   text: string | ReactNode;
@@ -23,7 +22,6 @@ interface ButtonProps {
 }
 
 export function ButtonComponent(props: ButtonProps) {
-  const colorScheme = Appearance.getColorScheme();
   const {
     text,
     onPress,
@@ -36,7 +34,6 @@ export function ButtonComponent(props: ButtonProps) {
     textColor,
   } = props;
 
-  const styles = useGetTheme(style);
   return (
     <TouchableOpacity disabled={isButtonVisible} onPress={onPress}>
       <View
@@ -46,8 +43,7 @@ export function ButtonComponent(props: ButtonProps) {
           borderRadius ? {borderRadius} : {borderRadius: 20},
           backgroundColor
             ? {backgroundColor}
-            : {backgroundColor: themes[colorScheme!].sixthColor},
-          isButtonVisible ? styles.passiveOpacity : undefined,
+            : {backgroundColor: colors.primary},
         ]}>
         {typeof text === 'string' ? (
           <>
@@ -60,7 +56,6 @@ export function ButtonComponent(props: ButtonProps) {
             ) : (
               <Text
                 style={[
-                  styles.buttonTextColor,
                   fontSize ? {fontSize: fontSize} : {fontSize: 18},
                   textColor ? {color: textColor} : {color: 'white'},
                 ]}>
