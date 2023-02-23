@@ -1,52 +1,41 @@
-import React from 'react';
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {FlatList, View} from 'react-native';
 import {styles} from './style';
 import {Header} from '../../components/Header';
 import {Folder} from '../../components/Folder';
-import {AddNewItem} from '../../AddNewItem';
-import Modal from 'react-native-modal';
-import {AddNewItemModal} from '../../AddNewItemModal';
-
-const folders = [
-  {
-    id: 1,
-    name: 'is',
-  },
-  {
-    id: 2,
-    name: 'Okul',
-  },
-  {
-    id: 3,
-    name: 'Folder 3 onemli isler',
-  },
-];
+import {AddNewFolder} from '../../components/AddNewFolder';
+import {AddNewFolderModal} from '../../components/AddNewFolderModal';
+import {useSelector} from 'react-redux';
 
 export function MainScreen() {
+  const [isAddFolderVisible, setIsAddFolderVisible] = useState(false);
+  const folders = useSelector((state: any) => state.folder.folder);
+
+  const onOpenModalPress = useCallback(() => {
+    setIsAddFolderVisible(true);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header />
-      <View style={{marginHorizontal: 15, marginBottom: 10, marginTop: 20}}>
-        <AddNewItem onPress={() => {}} image={null} text={'New Folder'} />
-      </View>
       <FlatList
+        keyboardShouldPersistTaps={'always'}
+        ListHeaderComponent={
+          <View style={styles.addNewFolderView}>
+            <AddNewFolder onPress={onOpenModalPress} text={'Add New Folder'} />
+          </View>
+        }
         data={folders}
         renderItem={({item}) => (
-          <View style={{marginHorizontal: 15, marginBottom: 10}}>
+          <View style={styles.folderView}>
             <Folder folder={item} />
           </View>
         )}
       />
-      <AddNewItemModal />
+      <AddNewFolderModal
+        isVisible={isAddFolderVisible}
+        setVisible={setIsAddFolderVisible}
+      />
     </View>
   );
 }

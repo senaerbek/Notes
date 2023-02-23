@@ -6,4 +6,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundColor,
   },
+  addNewFolderView: {
+    marginHorizontal: 15,
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  folderView: {
+    marginHorizontal: 15,
+    marginBottom: 10,
+  },
 });
