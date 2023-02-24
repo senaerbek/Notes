@@ -18,11 +18,10 @@ export function NoteListScreen(props: Props) {
   const notes = useSelector((state: any) => state.note.notes);
 
   const filteredNotes = useMemo(() => {
-    return notes;
-    // return notes.length > 0
-    //   ? notes?.filter((note: Note) => note.folderId === folderId)
-    //   : [];
-  }, [notes]);
+    return notes.length > 0
+      ? notes?.filter((note: Note) => note.folderId === folderId)
+      : [];
+  }, [folderId, notes]);
 
   const navigateToAddNoteScreen = useCallback(() => {
     // @ts-ignore
@@ -40,6 +39,7 @@ export function NoteListScreen(props: Props) {
             <NoteComponent note={item} />
           </View>
         )}
+        keyExtractor={item => item.id}
       />
       <View style={styles.floatButtonContainer}>
         <ButtonComponent

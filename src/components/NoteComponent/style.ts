@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
   deleteIcon: {
     width: 20,
     height: 20,
+    tintColor: colors.primary,
   },
   title: {
     color: colors.primary,

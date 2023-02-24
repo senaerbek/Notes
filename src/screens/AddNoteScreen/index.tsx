@@ -8,6 +8,7 @@ import {createRandomId} from '../../utils/createRandomId';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNoteAction} from '../../store/note/action';
 import {Note} from '../../store/note/state';
+import {Header} from '../../components/Header';
 
 type Props = {
   route?: RouteProp<{params: {folderId: number; note: Note}}, 'params'>;
@@ -44,6 +45,7 @@ export function AddNoteScreen(props: Props) {
 
   return (
     <View style={styles.container}>
+      <Header title={'Note'} />
       <KeyboardAwareView>
         <View style={styles.body}>
           <TextInput

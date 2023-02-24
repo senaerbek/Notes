@@ -45,7 +45,7 @@ export function NoteComponent(noteProps: NoteProps) {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.title}>
-            {note.title}
+            {note.title.length > 0 ? note.title : 'Untitled'}
           </Text>
           <Text numberOfLines={2} style={styles.content}>
             {note.content}

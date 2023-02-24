@@ -31,6 +31,7 @@ export function MainScreen() {
             <Folder folder={item} />
           </View>
         )}
+        keyExtractor={item => item.id}
       />
       <AddNewFolderModal
         isVisible={isAddFolderVisible}
