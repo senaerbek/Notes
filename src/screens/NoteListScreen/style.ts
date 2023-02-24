@@ -13,6 +13,9 @@ export const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
   },
+  noteList: {
+    marginTop: 20,
+  },
   notesView: {
     marginHorizontal: 15,
     marginBottom: 10,

@@ -17,7 +17,7 @@ export function MainScreen() {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header title={'Folders'} />
       <FlatList
         keyboardShouldPersistTaps={'always'}
         ListHeaderComponent={

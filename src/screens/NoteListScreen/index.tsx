@@ -4,8 +4,9 @@ import {styles} from './style';
 import {useSelector} from 'react-redux';
 import {NoteComponent} from '../../components/NoteComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
-import {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {Note} from '../../store/note/state';
+import {Header} from '../../components/Header';
 
 type Props = {
   route?: RouteProp<{params: {folderId: number}}, 'params'>;
@@ -22,12 +23,14 @@ export function NoteListScreen(props: Props) {
 
   const navigateToAddNoteScreen = useCallback(() => {
     // @ts-ignore
-    navigation.nasvigate('AddNote', {folderId});
+    navigation.navigate('AddNote', {folderId});
   }, [folderId, navigation]);
 
   return (
     <View style={styles.container}>
+      <Header title={'Notes'} />
       <FlatList
+        style={styles.noteList}
         data={filteredNotes}
         renderItem={({item}) => (
           <View style={styles.notesView}>
