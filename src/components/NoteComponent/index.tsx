@@ -4,6 +4,7 @@ import {Note} from '../../store/note/state';
 import {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNoteAction} from '../../store/note/action';
+import {useNavigation} from '@react-navigation/native';
 
 interface NoteProps {
   note: Note;
@@ -12,6 +13,7 @@ interface NoteProps {
 export function NoteComponent(noteProps: NoteProps) {
   const {note} = noteProps;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const notes = useSelector((state: any) => state.note.notes);
 
   const deleteNote = useCallback(() => {
@@ -33,8 +35,13 @@ export function NoteComponent(noteProps: NoteProps) {
     ]);
   }, [deleteNote]);
 
+  const navigateToNote = useCallback(() => {
+    // @ts-ignore
+    navigation.navigate('AddNote', {folderId: note.folderId, note: note});
+  }, [navigation, note]);
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={navigateToNote}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.title}>

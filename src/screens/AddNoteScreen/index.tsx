@@ -7,20 +7,29 @@ import {useGoBackScreen} from '../../hooks/useGoBackScreen';
 import {createRandomId} from '../../utils/createRandomId';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNoteAction} from '../../store/note/action';
+import {Note} from '../../store/note/state';
 
 type Props = {
-  route?: RouteProp<{params: {folderId: number}}, 'params'>;
+  route?: RouteProp<{params: {folderId: number; note: Note}}, 'params'>;
 };
 
 export function AddNoteScreen(props: Props) {
-  const {folderId} = props.route?.params || {};
+  const {folderId, note} = props.route?.params || {};
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(note?.title);
+  const [content, setContent] = useState(note?.content);
   const notes = useSelector((state: any) => state.note.notes);
 
+  const updateNote = useCallback(() => {
+    const noteToUpdate = notes.find((item: Note) => item.folderId === folderId);
+    noteToUpdate.title = title;
+    noteToUpdate.content = content;
+    noteToUpdate.updatedAt = new Date();
+    dispatch(addNoteAction([...notes]));
+  }, [content, dispatch, folderId, notes, title]);
+
   const saveNote = useCallback(() => {
-    const note = {
+    const noteToSave = {
       id: createRandomId(),
       folderId: folderId,
       title: title,
@@ -28,20 +37,23 @@ export function AddNoteScreen(props: Props) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    dispatch(addNoteAction([...notes, note]));
+    dispatch(addNoteAction([...notes, noteToSave]));
   }, [content, dispatch, folderId, notes, title]);
 
-  useGoBackScreen(saveNote);
+  useGoBackScreen(note?.id ? updateNote : saveNote);
+
   return (
     <View style={styles.container}>
       <KeyboardAwareView>
         <View style={styles.body}>
           <TextInput
+            defaultValue={note?.title}
             onChangeText={setTitle}
             placeholder={'Title'}
             style={styles.titleInput}
           />
           <TextInput
+            defaultValue={note?.content}
             onChangeText={setContent}
             multiline={true}
             textAlignVertical={'top'}

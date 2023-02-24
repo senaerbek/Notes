@@ -18,8 +18,11 @@ export function NoteListScreen(props: Props) {
   const notes = useSelector((state: any) => state.note.notes);
 
   const filteredNotes = useMemo(() => {
-    return notes.filter((note: Note) => note.folderId === folderId);
-  }, [folderId, notes]);
+    return notes;
+    // return notes.length > 0
+    //   ? notes?.filter((note: Note) => note.folderId === folderId)
+    //   : [];
+  }, [notes]);
 
   const navigateToAddNoteScreen = useCallback(() => {
     // @ts-ignore
