@@ -1,9 +1,11 @@
 import {FlatList, View} from 'react-native';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {styles} from './style';
 import {useSelector} from 'react-redux';
-import {Note} from '../../components/Note';
+import {NoteComponent} from '../../components/NoteComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
+import {useCallback, useMemo} from 'react';
+import {Note} from '../../store/note/state';
 
 type Props = {
   route?: RouteProp<{params: {folderId: number}}, 'params'>;
@@ -11,15 +13,25 @@ type Props = {
 
 export function NoteListScreen(props: Props) {
   const {folderId} = props.route?.params || {};
-  const notes = useSelector((state: any) => state.note.s);
+  const navigation = useNavigation();
+  const notes = useSelector((state: any) => state.note.notes);
+
+  const filteredNotes = useMemo(() => {
+    return notes.filter((note: Note) => note.folderId === folderId);
+  }, [folderId, notes]);
+
+  const navigateToAddNoteScreen = useCallback(() => {
+    // @ts-ignore
+    navigation.nasvigate('AddNote', {folderId});
+  }, [folderId, navigation]);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={[{}, {}]}
-        renderItem={() => (
+        data={filteredNotes}
+        renderItem={({item}) => (
           <View style={styles.notesView}>
-            <Note />
+            <NoteComponent note={item} />
           </View>
         )}
       />
@@ -27,7 +39,7 @@ export function NoteListScreen(props: Props) {
         <ButtonComponent
           text={'+'}
           fontSize={30}
-          onPress={() => {}}
+          onPress={navigateToAddNoteScreen}
           borderRadius={50}
         />
       </View>

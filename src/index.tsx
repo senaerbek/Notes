@@ -6,6 +6,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {Text} from 'react-native';
 import 'react-native-gesture-handler';
 import {persistor, store} from './store';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 function AppContainer() {
   return (
@@ -18,7 +19,9 @@ export function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={<Text>Loading...</Text>}>
-        <AppContainer />
+        <SafeAreaProvider>
+          <AppContainer />
+        </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );

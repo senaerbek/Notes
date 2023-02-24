@@ -5,8 +5,8 @@ export interface NoteState {
 export interface Note {
   id: number;
   folderId: number;
-  name: string;
+  title: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
