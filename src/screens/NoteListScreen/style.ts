@@ -6,6 +6,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundColor,
   },
+  searchInputContainer: {
+    marginTop: 20,
+    marginHorizontal: 15,
+  },
   floatButtonContainer: {
     position: 'absolute',
     width: 50,

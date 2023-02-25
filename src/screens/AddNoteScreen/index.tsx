@@ -46,17 +46,21 @@ export function AddNoteScreen(props: Props) {
   }, [content, dispatch, label, note?.id, notes, selectedColor, title]);
 
   const saveNote = useCallback(() => {
-    const noteToSave = {
-      id: createRandomId(),
-      folderId: folderId,
-      title: title,
-      content: content,
-      label: label,
-      backgroundColor: selectedColor,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    dispatch(addNoteAction([...notes, noteToSave]));
+    if (!content && !title) {
+      return;
+    } else {
+      const noteToSave = {
+        id: createRandomId(),
+        folderId: folderId,
+        title: title ?? 'Untitled',
+        content: content,
+        label: label,
+        backgroundColor: selectedColor,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      dispatch(addNoteAction([...notes, noteToSave]));
+    }
   }, [content, dispatch, folderId, label, notes, selectedColor, title]);
 
   useGoBackScreen(note?.id ? updateNote : saveNote);

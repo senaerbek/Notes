@@ -4,9 +4,10 @@ import {styles} from './style';
 import {useSelector} from 'react-redux';
 import {NoteComponent} from '../../components/NoteComponent';
 import {ButtonComponent} from '../../components/ButtonComponent';
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {Note} from '../../store/note/state';
 import {Header} from '../../components/Header';
+import {SearchInput} from '../../components/SearchInput';
 
 type Props = {
   route?: RouteProp<{params: {folderId: number}}, 'params'>;
@@ -15,6 +16,7 @@ type Props = {
 export function NoteListScreen(props: Props) {
   const {folderId} = props.route?.params || {};
   const navigation = useNavigation();
+  const [noteInputText, setNoteInputText] = useState('');
   const notes = useSelector((state: any) => state.note.notes);
 
   const filteredNotes = useMemo(() => {
@@ -26,6 +28,17 @@ export function NoteListScreen(props: Props) {
       : [];
   }, [folderId, notes]);
 
+  const searchedNotes = useMemo(() => {
+    if (!noteInputText) {
+      return filteredNotes;
+    }
+    return filteredNotes.length > 0
+      ? filteredNotes?.filter((note: Note) =>
+          note?.title?.toLowerCase().includes(noteInputText.toLowerCase()),
+        )
+      : [];
+  }, [noteInputText, filteredNotes]);
+
   const navigateToAddNoteScreen = useCallback(() => {
     // @ts-ignore
     navigation.navigate('AddNote', {folderId});
@@ -34,9 +47,12 @@ export function NoteListScreen(props: Props) {
   return (
     <View style={styles.container}>
       <Header title={'Notes'} />
+      <View style={styles.searchInputContainer}>
+        <SearchInput onChangeText={setNoteInputText} />
+      </View>
       <FlatList
         style={styles.noteList}
-        data={filteredNotes}
+        data={searchedNotes}
         renderItem={({item}) => (
           <View style={styles.notesView}>
             <NoteComponent note={item} />
