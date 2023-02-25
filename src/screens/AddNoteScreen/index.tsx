@@ -11,7 +11,7 @@ import {Note} from '../../store/note/state';
 import {Header} from '../../components/Header';
 
 type Props = {
-  route?: RouteProp<{params: {folderId: number; note: Note}}, 'params'>;
+  route?: RouteProp<{params: {folderId?: number; note?: Note}}, 'params'>;
 };
 
 export function AddNoteScreen(props: Props) {
@@ -22,12 +22,12 @@ export function AddNoteScreen(props: Props) {
   const notes = useSelector((state: any) => state.note.notes);
 
   const updateNote = useCallback(() => {
-    const noteToUpdate = notes.find((item: Note) => item.folderId === folderId);
+    const noteToUpdate = notes.find((item: Note) => item.id === note?.id);
     noteToUpdate.title = title;
     noteToUpdate.content = content;
     noteToUpdate.updatedAt = new Date();
     dispatch(addNoteAction([...notes]));
-  }, [content, dispatch, folderId, notes, title]);
+  }, [content, dispatch, note?.id, notes, title]);
 
   const saveNote = useCallback(() => {
     const noteToSave = {

@@ -32,6 +32,7 @@ export function MainScreen() {
           </View>
         )}
         keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
       />
       <AddNewFolderModal
         isVisible={isAddFolderVisible}

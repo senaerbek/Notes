@@ -4,7 +4,7 @@ import {colors} from '../../themes/colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 80,
+    height: 120,
     backgroundColor: colors.secondary,
     borderRadius: 10,
     paddingHorizontal: 20,
@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 5,
+    justifyContent: 'space-between',
   },
   deleteIconContainer: {
     flex: 1,
@@ -32,5 +33,9 @@ export const styles = StyleSheet.create({
   content: {
     color: colors.primary,
     fontSize: 14,
+  },
+  date: {
+    color: colors.primary,
+    fontSize: 12,
   },
 });

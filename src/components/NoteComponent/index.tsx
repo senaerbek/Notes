@@ -45,11 +45,12 @@ export function NoteComponent(noteProps: NoteProps) {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.title}>
-            {note.title.length > 0 ? note.title : 'Untitled'}
+            {note?.title?.length > 0 ? note.title : 'Untitled'}
           </Text>
           <Text numberOfLines={2} style={styles.content}>
-            {note.content}
+            {note?.content}
           </Text>
+          <Text style={styles.date}>{note?.createdAt.toDateString()}</Text>
         </View>
         <View style={styles.deleteIconContainer}>
           <TouchableOpacity

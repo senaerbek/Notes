@@ -40,6 +40,7 @@ export function NoteListScreen(props: Props) {
           </View>
         )}
         keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
       />
       <View style={styles.floatButtonContainer}>
         <ButtonComponent
