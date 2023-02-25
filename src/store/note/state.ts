@@ -7,6 +7,7 @@ export interface Note {
   folderId: number;
   title: string;
   content: string;
+  label: string;
   createdAt: Date;
   updatedAt: Date;
 }

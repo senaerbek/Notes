@@ -18,6 +18,9 @@ export function NoteListScreen(props: Props) {
   const notes = useSelector((state: any) => state.note.notes);
 
   const filteredNotes = useMemo(() => {
+    if (!folderId) {
+      return notes;
+    }
     return notes.length > 0
       ? notes?.filter((note: Note) => note.folderId === folderId)
       : [];
@@ -27,7 +30,7 @@ export function NoteListScreen(props: Props) {
     // @ts-ignore
     navigation.navigate('AddNote', {folderId});
   }, [folderId, navigation]);
-
+  console.log('filteredNotes', filteredNotes);
   return (
     <View style={styles.container}>
       <Header title={'Notes'} />

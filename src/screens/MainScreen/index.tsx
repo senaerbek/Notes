@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import {styles} from './style';
 import {Header} from '../../components/Header';
-import {Folder} from '../../components/Folder';
+import {FolderComponent} from '../../components/FolderComponent';
 import {AddNewFolder} from '../../components/AddNewFolder';
 import {AddNewFolderModal} from '../../components/AddNewFolderModal';
 import {useSelector} from 'react-redux';
@@ -21,14 +21,22 @@ export function MainScreen() {
       <FlatList
         keyboardShouldPersistTaps={'always'}
         ListHeaderComponent={
-          <View style={styles.addNewFolderView}>
-            <AddNewFolder onPress={onOpenModalPress} text={'Add New Folder'} />
+          <View style={styles.listHeader}>
+            <View style={styles.addNewFolderView}>
+              <AddNewFolder
+                onPress={onOpenModalPress}
+                text={'Add New Folder'}
+              />
+            </View>
+            <View style={styles.allFolderView}>
+              <FolderComponent />
+            </View>
           </View>
         }
         data={folders}
         renderItem={({item}) => (
           <View style={styles.folderView}>
-            <Folder folder={item} />
+            <FolderComponent folder={item} />
           </View>
         )}
         keyExtractor={item => item.id}

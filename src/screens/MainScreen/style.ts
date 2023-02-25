@@ -7,12 +7,17 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
   },
   addNewFolderView: {
-    marginHorizontal: 15,
     marginBottom: 10,
     marginTop: 20,
   },
   folderView: {
     marginHorizontal: 15,
     marginBottom: 10,
+  },
+  allFolderView: {
+    marginBottom: 10,
+  },
+  listHeader: {
+    marginHorizontal: 15,
   },
 });

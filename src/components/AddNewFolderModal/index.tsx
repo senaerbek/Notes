@@ -27,6 +27,7 @@ export function AddNewFolderModal(props: Props) {
     dispatch(
       addFolderAction([{id: createRandomId(), name: inputValue}, ...folders]),
     );
+    setInputValue('');
     closeModal();
   }, [closeModal, dispatch, folders, inputValue]);
 

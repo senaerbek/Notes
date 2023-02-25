@@ -17,13 +17,22 @@ export const styles = StyleSheet.create({
   },
   deleteIconContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'flex-end',
   },
   deleteIcon: {
     width: 20,
     height: 20,
     tintColor: colors.primary,
+  },
+  labelIcon: {
+    width: 20,
+    height: 20,
+    tintColor: colors.primary,
+  },
+  label: {
+    color: colors.primary,
+    fontSize: 14,
   },
   title: {
     color: colors.primary,

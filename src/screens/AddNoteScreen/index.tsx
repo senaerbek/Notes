@@ -19,6 +19,7 @@ export function AddNoteScreen(props: Props) {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(note?.title);
   const [content, setContent] = useState(note?.content);
+  const [label, setLabel] = useState(note?.label);
   const notes = useSelector((state: any) => state.note.notes);
 
   const updateNote = useCallback(() => {
@@ -35,11 +36,12 @@ export function AddNoteScreen(props: Props) {
       folderId: folderId,
       title: title,
       content: content,
+      label: label,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
     dispatch(addNoteAction([...notes, noteToSave]));
-  }, [content, dispatch, folderId, notes, title]);
+  }, [content, dispatch, folderId, label, notes, title]);
 
   useGoBackScreen(note?.id ? updateNote : saveNote);
 
@@ -63,6 +65,12 @@ export function AddNoteScreen(props: Props) {
             style={styles.contentInput}
           />
         </View>
+        <TextInput
+          defaultValue={note?.title}
+          onChangeText={setLabel}
+          placeholder={'# Label'}
+          style={styles.titleInput}
+        />
       </KeyboardAwareView>
     </View>
   );

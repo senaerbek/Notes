@@ -17,8 +17,8 @@ export function NoteComponent(noteProps: NoteProps) {
   const notes = useSelector((state: any) => state.note.notes);
 
   const deleteNote = useCallback(() => {
-    dispatch(addNoteAction(notes.filter((item: Note) => item.id !== note.id)));
-  }, [dispatch, note.id, notes]);
+    dispatch(addNoteAction(notes.filter((item: Note) => item.id !== note?.id)));
+  }, [dispatch, note?.id, notes]);
 
   const deleteNotePress = useCallback(() => {
     Alert.alert('Delete', 'Are you sure you want to delete this note?', [
@@ -50,9 +50,14 @@ export function NoteComponent(noteProps: NoteProps) {
           <Text numberOfLines={2} style={styles.content}>
             {note?.content}
           </Text>
-          <Text style={styles.date}>{note?.createdAt.toDateString()}</Text>
+          <Text style={styles.date}>date</Text>
         </View>
         <View style={styles.deleteIconContainer}>
+          {note?.label?.length > 0 ? (
+            <Text numberOfLines={1} style={styles.label}>
+              #{note?.label}
+            </Text>
+          ) : null}
           <TouchableOpacity
             onPress={deleteNotePress}
             hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
