@@ -30,7 +30,7 @@ export function NoteListScreen(props: Props) {
     // @ts-ignore
     navigation.navigate('AddNote', {folderId});
   }, [folderId, navigation]);
-  console.log('filteredNotes', filteredNotes);
+
   return (
     <View style={styles.container}>
       <Header title={'Notes'} />
