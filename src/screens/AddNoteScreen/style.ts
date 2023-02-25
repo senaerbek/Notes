@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   titleInput: {
     height: 50,
     paddingHorizontal: 10,
+    color: colors.text,
   },
   contentInput: {
     flex: 1,
@@ -20,5 +21,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     paddingVertical: 10,
+    color: colors.text,
+  },
+  colorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    margin: 10,
+  },
+  color: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  selectedColor: {
+    borderWidth: 2,
+    borderColor: colors.primary,
   },
 });

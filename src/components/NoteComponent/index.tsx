@@ -42,7 +42,13 @@ export function NoteComponent(noteProps: NoteProps) {
 
   return (
     <TouchableOpacity onPress={navigateToNote}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: note?.backgroundColor,
+          },
+        ]}>
         <View style={styles.contentContainer}>
           <Text numberOfLines={1} style={styles.title}>
             {note?.title?.length > 0 ? note.title : 'Untitled'}

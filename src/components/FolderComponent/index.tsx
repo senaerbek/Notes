@@ -6,6 +6,7 @@ import {Folder} from '../../store/folder/state';
 import {useDispatch, useSelector} from 'react-redux';
 import {addFolderAction} from '../../store/folder/action';
 import {addNoteAction} from '../../store/note/action';
+import {Note} from '../../store/note/state';
 
 interface Props {
   folder?: Folder;
@@ -19,7 +20,7 @@ export function FolderComponent(props: Props) {
 
   const deleteFolderNotes = useCallback(() => {
     const deleteNotes = notes.filter(
-      (item: Folder) => item.folderId !== folder?.id,
+      (item: Note) => item.folderId !== folder?.id,
     );
     dispatch(addNoteAction(deleteNotes));
   }, [dispatch, folder?.id, notes]);

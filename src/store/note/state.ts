@@ -8,6 +8,7 @@ export interface Note {
   title: string;
   content: string;
   label: string;
+  backgroundColor: string;
   createdAt: Date;
   updatedAt: Date;
 }
