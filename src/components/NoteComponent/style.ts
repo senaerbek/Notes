@@ -19,6 +19,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'flex-end',
   },
+  alarmIcon: {
+    width: 20,
+    height: 20,
+    tintColor: colors.primary,
+  },
   deleteIcon: {
     width: 20,
     height: 20,

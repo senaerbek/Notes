@@ -9,6 +9,7 @@ export interface Note {
   content: string;
   label: string;
   backgroundColor: string;
+  reminderDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -37,4 +37,9 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.primary,
   },
+  alarmIcon: {
+    width: 25,
+    height: 25,
+    tintColor: '#000000',
+  },
 });

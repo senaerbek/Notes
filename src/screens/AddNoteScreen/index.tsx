@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {TextInput, TouchableOpacity, View} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View} from 'react-native';
 import {styles} from './style';
 import {KeyboardAwareView} from '../../components/KeyboardAwareView';
 import {RouteProp} from '@react-navigation/native';
@@ -10,6 +10,7 @@ import {addNoteAction} from '../../store/note/action';
 import {Note} from '../../store/note/state';
 import {Header} from '../../components/Header';
 import {colors} from '../../themes/colors';
+import {DatePickerModal} from '../../components/DatePickerModal';
 
 type Props = {
   route?: RouteProp<{params: {folderId?: number; note?: Note}}, 'params'>;
@@ -33,6 +34,10 @@ export function AddNoteScreen(props: Props) {
   const [selectedColor, setSelectedColor] = useState(
     note?.backgroundColor || colors.secondary,
   );
+  const [reminderDate, setReminderDate] = useState<Date | null>(
+    note?.reminderDate || null,
+  );
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const notes = useSelector((state: any) => state.note.notes);
 
   const updateNote = useCallback(() => {
@@ -41,9 +46,20 @@ export function AddNoteScreen(props: Props) {
     noteToUpdate.content = content;
     noteToUpdate.label = label;
     noteToUpdate.backgroundColor = selectedColor;
+    noteToUpdate.reminderDate = reminderDate ?? note?.reminderDate;
     noteToUpdate.updatedAt = new Date();
     dispatch(addNoteAction([...notes]));
-  }, [content, dispatch, label, note?.id, notes, selectedColor, title]);
+  }, [
+    content,
+    dispatch,
+    label,
+    note?.id,
+    note?.reminderDate,
+    notes,
+    reminderDate,
+    selectedColor,
+    title,
+  ]);
 
   const saveNote = useCallback(() => {
     if (!content && !title) {
@@ -56,18 +72,37 @@ export function AddNoteScreen(props: Props) {
         content: content,
         label: label,
         backgroundColor: selectedColor,
+        reminderDate: reminderDate ?? null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
       dispatch(addNoteAction([...notes, noteToSave]));
     }
-  }, [content, dispatch, folderId, label, notes, selectedColor, title]);
+  }, [
+    content,
+    dispatch,
+    folderId,
+    label,
+    notes,
+    reminderDate,
+    selectedColor,
+    title,
+  ]);
 
   useGoBackScreen(note?.id ? updateNote : saveNote);
 
   return (
     <View style={[styles.container, {backgroundColor: selectedColor}]}>
-      <Header title={'Note'} />
+      <Header
+        title={'Note'}
+        rightIcon={
+          <Image
+            source={require('./images/alarm-clock.png')}
+            style={styles.alarmIcon}
+          />
+        }
+        rightIconOnPress={() => setIsDatePickerVisible(true)}
+      />
       <KeyboardAwareView>
         <View style={styles.body}>
           <TextInput
@@ -101,13 +136,18 @@ export function AddNoteScreen(props: Props) {
               style={[
                 styles.color,
                 color === selectedColor ? styles.selectedColor : undefined,
-                ,
                 {backgroundColor: color},
               ]}
             />
           ))}
         </View>
       </KeyboardAwareView>
+      <DatePickerModal
+        selectedDate={note?.reminderDate}
+        selectDate={setReminderDate}
+        isVisible={isDatePickerVisible}
+        setIsVisible={setIsDatePickerVisible}
+      />
     </View>
   );
 }

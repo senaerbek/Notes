@@ -1,10 +1,11 @@
 import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './style';
 import {Note} from '../../store/note/state';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNoteAction} from '../../store/note/action';
 import {useNavigation} from '@react-navigation/native';
+import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native';
 
 interface NoteProps {
   note: Note;
@@ -40,6 +41,43 @@ export function NoteComponent(noteProps: NoteProps) {
     navigation.navigate('AddNote', {folderId: note.folderId, note: note});
   }, [navigation, note]);
 
+  async function onDisplayNotification() {
+    // Request permissions (required for iOS)
+    await notifee.requestPermission();
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    const reminderDateMinusFiveMinutes = new Date(
+      note?.reminderDate.setMinutes(note?.reminderDate.getMinutes() - 5),
+    );
+
+    const trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: reminderDateMinusFiveMinutes.getTime(),
+    };
+
+    await notifee.createTriggerNotification(
+      {
+        title: 'Notification Title',
+        body: 'Main body content of the notification',
+        android: {
+          channelId,
+        },
+      },
+      trigger,
+    );
+  }
+
+  useEffect(() => {
+    if (note?.reminderDate) {
+      onDisplayNotification();
+    }
+  }, [note?.reminderDate, onDisplayNotification]);
+
   return (
     <TouchableOpacity onPress={navigateToNote}>
       <View
@@ -59,6 +97,12 @@ export function NoteComponent(noteProps: NoteProps) {
           <Text style={styles.date}>date</Text>
         </View>
         <View style={styles.deleteIconContainer}>
+          {note.reminderDate ? (
+            <Image
+              source={require('./images/alarm-clock.png')}
+              style={styles.alarmIcon}
+            />
+          ) : null}
           {note?.label?.length > 0 ? (
             <Text numberOfLines={1} style={styles.label}>
               #{note?.label}
