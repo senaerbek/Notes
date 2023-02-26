@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     minHeight: '20%',
     marginTop: 'auto',
-    backgroundColor: '#9b9c9c',
+    backgroundColor: colors.backgroundColor,
     borderRadius: 10,
   },
   modal: {

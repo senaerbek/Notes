@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Image, TextInput, TouchableOpacity, View} from 'react-native';
 import {styles} from './style';
 import {KeyboardAwareView} from '../../components/KeyboardAwareView';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {useGoBackScreen} from '../../hooks/useGoBackScreen';
 import {createRandomId} from '../../utils/createRandomId';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,6 +11,7 @@ import {Note} from '../../store/note/state';
 import {Header} from '../../components/Header';
 import {colors} from '../../themes/colors';
 import {DatePickerModal} from '../../components/DatePickerModal';
+import {ButtonComponent} from '../../components/ButtonComponent';
 
 type Props = {
   route?: RouteProp<{params: {folderId?: number; note?: Note}}, 'params'>;
@@ -28,6 +29,7 @@ const colorList = [
 export function AddNoteScreen(props: Props) {
   const {folderId, note} = props.route?.params || {};
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [title, setTitle] = useState(note?.title);
   const [content, setContent] = useState(note?.content);
   const [label, setLabel] = useState(note?.label);
@@ -76,7 +78,7 @@ export function AddNoteScreen(props: Props) {
         createdAt: new Date(),
         updatedAt: new Date(),
       };
-      dispatch(addNoteAction([...notes, noteToSave]));
+      dispatch(addNoteAction([noteToSave, ...notes]));
     }
   }, [
     content,
@@ -88,6 +90,11 @@ export function AddNoteScreen(props: Props) {
     selectedColor,
     title,
   ]);
+
+  const saveButtonPress = useCallback(() => {
+    note?.id ? updateNote() : saveNote();
+    navigation.goBack();
+  }, [navigation, note?.id, saveNote, updateNote]);
 
   useGoBackScreen(note?.id ? updateNote : saveNote);
 
@@ -126,13 +133,31 @@ export function AddNoteScreen(props: Props) {
             style={styles.contentInput}
           />
         </View>
-        <TextInput
-          placeholderTextColor={colors.placeholder}
-          defaultValue={note?.label}
-          onChangeText={setLabel}
-          placeholder={'# Label'}
-          style={styles.titleInput}
-        />
+        <View style={styles.bottomContainer}>
+          <View style={styles.labelInputContainer}>
+            <TextInput
+              placeholderTextColor={colors.placeholder}
+              defaultValue={note?.label}
+              onChangeText={setLabel}
+              placeholder={'# Label'}
+              style={styles.titleInput}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <ButtonComponent
+                text={
+                  <Image
+                    source={require('./images/check.png')}
+                    style={styles.buttonIcon}
+                  />
+                }
+                onPress={saveButtonPress}
+                borderRadius={50}
+              />
+            </View>
+          </View>
+        </View>
         <View style={styles.colorContainer}>
           {colorList.map((color: string, index: number) => (
             <TouchableOpacity

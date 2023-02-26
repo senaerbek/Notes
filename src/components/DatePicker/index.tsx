@@ -14,5 +14,11 @@ export function DatePickerComponent(props: DatePickerProps) {
     [selectDate],
   );
 
-  return <DatePicker date={date} onDateChange={onSelectDate} />;
+  return (
+    <DatePicker
+      minimumDate={new Date()}
+      date={date}
+      onDateChange={onSelectDate}
+    />
+  );
 }

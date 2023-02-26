@@ -42,4 +42,26 @@ export const styles = StyleSheet.create({
     height: 25,
     tintColor: '#000000',
   },
+  bottomContainer: {
+    flexDirection: 'row',
+  },
+  labelInputContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 10,
+  },
+  button: {
+    width: 50,
+    height: 50,
+  },
+  buttonIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#ffffff',
+  },
 });
