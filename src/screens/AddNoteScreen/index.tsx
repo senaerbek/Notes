@@ -97,7 +97,11 @@ export function AddNoteScreen(props: Props) {
         title={'Note'}
         rightIcon={
           <Image
-            source={require('./images/alarm-clock.png')}
+            source={
+              note?.reminderDate || reminderDate
+                ? require('./images/alarm.png')
+                : require('./images/alarm-close.png')
+            }
             style={styles.alarmIcon}
           />
         }

@@ -1,4 +1,4 @@
-import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Share, Text, TouchableOpacity, View} from 'react-native';
 import {styles} from './style';
 import {Note} from '../../store/note/state';
 import {useCallback, useEffect} from 'react';
@@ -41,7 +41,17 @@ export function NoteComponent(noteProps: NoteProps) {
     navigation.navigate('AddNote', {folderId: note.folderId, note: note});
   }, [navigation, note]);
 
-  async function onDisplayNotification() {
+  const onSharePress = useCallback(async () => {
+    try {
+      await Share.share({
+        message: `${note?.title} ${note?.content}`,
+      });
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+  }, [note?.content, note?.title]);
+
+  const onDisplayNotification = useCallback(async () => {
     // Request permissions (required for iOS)
     await notifee.requestPermission();
 
@@ -62,15 +72,15 @@ export function NoteComponent(noteProps: NoteProps) {
 
     await notifee.createTriggerNotification(
       {
-        title: 'Notification Title',
-        body: 'Main body content of the notification',
+        title: 'Reminder',
+        body: note?.title,
         android: {
           channelId,
         },
       },
       trigger,
     );
-  }
+  }, [note?.reminderDate, note?.title]);
 
   useEffect(() => {
     if (note?.reminderDate) {
@@ -94,27 +104,38 @@ export function NoteComponent(noteProps: NoteProps) {
           <Text numberOfLines={2} style={styles.content}>
             {note?.content}
           </Text>
-          <Text style={styles.date}>date</Text>
+          <View style={styles.bottom}>
+            <Text style={styles.date}>
+              {new Date(note?.createdAt).toDateString()}
+            </Text>
+            {note?.label?.length > 0 ? (
+              <Text numberOfLines={1} style={styles.label}>
+                #{note?.label}
+              </Text>
+            ) : null}
+          </View>
         </View>
         <View style={styles.deleteIconContainer}>
-          {note.reminderDate ? (
-            <Image
-              source={require('./images/alarm-clock.png')}
-              style={styles.alarmIcon}
-            />
-          ) : null}
-          {note?.label?.length > 0 ? (
-            <Text numberOfLines={1} style={styles.label}>
-              #{note?.label}
-            </Text>
-          ) : null}
+          <Image
+            source={
+              note?.reminderDate
+                ? require('./images/alarm.png')
+                : require('./images/alarm-close.png')
+            }
+            style={styles.icon}
+          />
           <TouchableOpacity
             onPress={deleteNotePress}
             hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
             <Image
               source={require('./images/delete.png')}
-              style={styles.deleteIcon}
+              style={styles.icon}
             />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onSharePress}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+            <Image source={require('./images/share.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>

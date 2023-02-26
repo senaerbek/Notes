@@ -4,7 +4,7 @@ import {colors} from '../../themes/colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 120,
+    height: 150,
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -16,20 +16,11 @@ export const styles = StyleSheet.create({
   },
   deleteIconContainer: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
+    paddingVertical: 10,
   },
-  alarmIcon: {
-    width: 20,
-    height: 20,
-    tintColor: colors.primary,
-  },
-  deleteIcon: {
-    width: 20,
-    height: 20,
-    tintColor: colors.primary,
-  },
-  labelIcon: {
+  icon: {
     width: 20,
     height: 20,
     tintColor: colors.primary,
@@ -50,5 +41,9 @@ export const styles = StyleSheet.create({
   date: {
     color: colors.primary,
     fontSize: 12,
+  },
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
