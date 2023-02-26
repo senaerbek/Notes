@@ -19,7 +19,10 @@ export function NoteComponent(noteProps: NoteProps) {
 
   const deleteNote = useCallback(() => {
     dispatch(addNoteAction(notes.filter((item: Note) => item.id !== note?.id)));
-  }, [dispatch, note?.id, notes]);
+    if (note?.reminderDate) {
+      notifee.cancelTriggerNotification(note?.id.toString());
+    }
+  }, [dispatch, note?.id, note?.reminderDate, notes]);
 
   const deleteNotePress = useCallback(() => {
     Alert.alert('Delete', 'Are you sure you want to delete this note?', [
@@ -72,15 +75,19 @@ export function NoteComponent(noteProps: NoteProps) {
 
     await notifee.createTriggerNotification(
       {
+        id: note?.id.toString(),
         title: 'Reminder',
         body: note?.title,
         android: {
           channelId,
+          pressAction: {
+            id: 'default',
+          },
         },
       },
       trigger,
     );
-  }, [note?.reminderDate, note?.title]);
+  }, [note?.id, note?.reminderDate, note?.title]);
 
   useEffect(() => {
     if (note?.reminderDate) {
