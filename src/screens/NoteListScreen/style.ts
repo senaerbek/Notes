@@ -10,6 +10,11 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 15,
   },
+  dropdownContainer: {
+    marginTop: 20,
+    marginHorizontal: 15,
+    zIndex: 1,
+  },
   floatButtonContainer: {
     position: 'absolute',
     width: 50,
