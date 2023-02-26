@@ -134,8 +134,9 @@ export function AddNoteScreen(props: Props) {
           style={styles.titleInput}
         />
         <View style={styles.colorContainer}>
-          {colorList.map((color: string) => (
+          {colorList.map((color: string, index: number) => (
             <TouchableOpacity
+              key={index}
               onPress={() => setSelectedColor(color)}
               style={[
                 styles.color,

@@ -18,16 +18,19 @@ export function Dropdown(props: DropdownProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <DropDownPicker
-      style={styles.dropdownPickerStyle}
-      dropDownContainerStyle={styles.dropdownPickerContainer}
-      containerStyle={styles.dropdownPickerStyle}
-      open={open}
-      value={selectedValue}
-      items={valueList}
-      setOpen={setOpen}
-      setValue={setSelectedValue}
-      zIndex={9999}
-    />
+    <View style={styles.dropdownView}>
+      <DropDownPicker
+        style={styles.dropdownPickerStyle}
+        dropDownContainerStyle={styles.dropdownPickerContainer}
+        containerStyle={styles.dropdownPickerStyle}
+        open={open}
+        value={selectedValue}
+        items={valueList}
+        setOpen={setOpen}
+        setValue={setSelectedValue}
+        zIndex={9999}
+        placeholder={'Select a label'}
+      />
+    </View>
   );
 }

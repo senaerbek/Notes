@@ -105,13 +105,17 @@ export function NoteComponent(noteProps: NoteProps) {
             {note?.content}
           </Text>
           <View style={styles.bottom}>
-            <Text style={styles.date}>
-              {new Date(note?.createdAt).toDateString()}
-            </Text>
-            {note?.label?.length > 0 ? (
-              <Text numberOfLines={1} style={styles.label}>
-                #{note?.label}
+            <View style={styles.bottomSection}>
+              <Text style={styles.date}>
+                {new Date(note?.createdAt).toDateString()}
               </Text>
+            </View>
+            {note?.label?.length > 0 ? (
+              <View style={styles.bottomSection}>
+                <Text numberOfLines={1} style={styles.label}>
+                  #{note?.label}
+                </Text>
+              </View>
             ) : null}
           </View>
         </View>

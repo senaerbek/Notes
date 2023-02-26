@@ -49,14 +49,17 @@ export function NoteListScreen(props: Props) {
   }, [selectedLabel, searchedNotes]);
 
   const labelList = useMemo(() => {
-    return filteredNotes.map((note: Note) => {
-      if (note.label) {
-        return {
-          label: note.label,
-          value: note.label,
-        };
-      }
-    });
+    const labels = filteredNotes
+      .map((note: Note) => ({
+        label: note?.label?.length > 0 ? note?.label : null,
+        value: note?.label?.length > 0 ? note?.label : null,
+      }))
+      .filter((item: any) => item.label !== null);
+    return [{label: 'All', value: ''}, ...labels].filter(
+      (arr, index, self) =>
+        index ===
+        self.findIndex(t => t.value === arr.value && t.value === arr.value),
+    );
   }, [filteredNotes]);
 
   const navigateToAddNoteScreen = useCallback(() => {
@@ -70,13 +73,15 @@ export function NoteListScreen(props: Props) {
       <View style={styles.searchInputContainer}>
         <SearchInput onChangeText={setNoteInputText} />
       </View>
-      <View style={styles.dropdownContainer}>
-        <Dropdown
-          valueList={labelList}
-          selectedValue={selectedLabel}
-          setSelectedValue={setSelectedLabel}
-        />
-      </View>
+      {labelList.length > 0 ? (
+        <View style={styles.dropdownContainer}>
+          <Dropdown
+            valueList={labelList}
+            selectedValue={selectedLabel}
+            setSelectedValue={setSelectedLabel}
+          />
+        </View>
+      ) : null}
       <FlatList
         style={styles.noteList}
         data={labelFilteredNotes}
