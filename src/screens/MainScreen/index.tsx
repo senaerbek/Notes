@@ -8,11 +8,11 @@ import {AddNewFolderModal} from '../../components/AddNewFolderModal';
 import {useSelector} from 'react-redux';
 
 export function MainScreen() {
-  const [isAddFolderVisible, setIsAddFolderVisible] = useState(false);
+  const [isAddFolderModalVisible, setIsAddFolderModalVisible] = useState(false);
   const folders = useSelector((state: any) => state.folder.folder);
 
   const onOpenModalPress = useCallback(() => {
-    setIsAddFolderVisible(true);
+    setIsAddFolderModalVisible(true);
   }, []);
 
   return (
@@ -43,8 +43,8 @@ export function MainScreen() {
         showsVerticalScrollIndicator={false}
       />
       <AddNewFolderModal
-        isVisible={isAddFolderVisible}
-        setVisible={setIsAddFolderVisible}
+        isVisible={isAddFolderModalVisible}
+        setVisible={setIsAddFolderModalVisible}
       />
     </View>
   );

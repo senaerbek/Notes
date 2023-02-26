@@ -28,7 +28,6 @@ export function Dropdown(props: DropdownProps) {
         items={valueList}
         setOpen={setOpen}
         setValue={setSelectedValue}
-        zIndex={9999}
         placeholder={'Select a label'}
       />
     </View>
